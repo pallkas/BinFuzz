@@ -1,0 +1,194 @@
+{
+  "project_name": "AI Runtime Vulnerability Forecasting",
+  "version": "1.0.0",
+  
+  "binaries": {
+    "llama": {
+      "baseline": {
+        "path": "/path/to/llama/v1.0/llama-cli",
+        "version": "1.0.0",
+        "dependencies": [
+          "/path/to/llama/v1.0/libllama.so.0",
+          "/path/to/llama/v1.0/libggml.so.0",
+          "/path/to/llama/v1.0/libggml-base.so.0"
+        ]
+      },
+      "updated": {
+        "path": "/path/to/llama/v1.1/llama-cli",
+        "version": "1.1.0",
+        "dependencies": [
+          "/path/to/llama/v1.1/libllama.so.0",
+          "/path/to/llama/v1.1/libggml.so.0",
+          "/path/to/llama/v1.1/libggml-base.so.0"
+        ]
+      }
+    },
+    "onnx": {
+      "baseline": {
+        "path": "/path/to/onnx/v1.14/onnxruntime",
+        "version": "1.14.0",
+        "dependencies": [
+          "/path/to/onnx/v1.14/libonnxruntime.so"
+        ]
+      },
+      "updated": {
+        "path": "/path/to/onnx/v1.15/onnxruntime",
+        "version": "1.15.0",
+        "dependencies": [
+          "/path/to/onnx/v1.15/libonnxruntime.so"
+        ]
+      }
+    }
+  },
+  
+  "fuzzing": {
+    "corpus_directories": {
+      "llama": "/path/to/fuzzing/corpus/llama_models",
+      "onnx": "/path/to/fuzzing/corpus/onnx_models"
+    },
+    "afl_config": {
+      "timeout": 2000,
+      "memory_limit": 8192,
+      "cores": 8,
+      "power_schedule": "explore",
+      "use_cmplog": true,
+      "use_laf": true,
+      "use_redqueen": true,
+      "parallel_instances": 4,
+      "duration_seconds": 7200
+    },
+    "dictionaries": {
+      "llama": "/path/to/dictionaries/llama.dict",
+      "onnx": "/path/to/dictionaries/onnx.dict"
+    }
+  },
+  
+  "bindiff": {
+    "bindiff_path": "/opt/bindiff/bin/bindiff",
+    "ida_path": "/opt/ida/idat64",
+    "use_fallback": true,
+    "similarity_threshold": 0.8,
+    "focus_functions": [
+      "parse",
+      "alloc",
+      "load",
+      "deserialize",
+      "memcpy",
+      "buffer"
+    ]
+  },
+  
+  "marl_config": {
+    "agents": {
+      "bindiff_analyzer": {
+        "learning_rate": 0.01,
+        "discount_factor": 0.95,
+        "epsilon": 0.1,
+        "epsilon_decay": 0.995,
+        "min_epsilon": 0.01
+      },
+      "fuzzing_coordinator": {
+        "learning_rate": 0.015,
+        "discount_factor": 0.9,
+        "epsilon": 0.15,
+        "epsilon_decay": 0.99,
+        "min_epsilon": 0.05
+      },
+      "dependency_mapper": {
+        "learning_rate": 0.01,
+        "discount_factor": 0.95,
+        "epsilon": 0.1
+      },
+      "risk_evaluator": {
+        "learning_rate": 0.02,
+        "discount_factor": 0.95,
+        "epsilon": 0.05
+      }
+    },
+    "training": {
+      "enable_experience_replay": true,
+      "replay_buffer_size": 10000,
+      "batch_size": 32,
+      "update_frequency": 10
+    },
+    "model_persistence": {
+      "save_interval": 100,
+      "model_directory": "./models",
+      "load_pretrained": false
+    }
+  },
+  
+  "risk_scoring": {
+    "weights": {
+      "structural_risk": 0.4,
+      "behavioral_risk": 0.4,
+      "dependency_risk": 0.2
+    },
+    "thresholds": {
+      "low": 30,
+      "medium": 60,
+      "high": 85,
+      "critical": 100
+    },
+    "severity_multipliers": {
+      "memory_function": 2.0,
+      "parsing_function": 1.5,
+      "low_similarity": 1.8,
+      "high_complexity_delta": 1.3
+    }
+  },
+  
+  "output": {
+    "workspace_directory": "./vuln_forecast_workspace",
+    "report_format": "json",
+    "generate_html_report": true,
+    "verbose_logging": true,
+    "save_intermediate_results": true
+  },
+  
+  "advanced_features": {
+    "dependency_update_simulation": {
+      "enabled": true,
+      "test_configurations": [
+        {
+          "description": "Old libllama with new libggml",
+          "components": {
+            "libllama.so.0": "baseline",
+            "libggml.so.0": "updated"
+          }
+        },
+        {
+          "description": "New libllama with old libggml",
+          "components": {
+            "libllama.so.0": "updated",
+            "libggml.so.0": "baseline"
+          }
+        }
+      ]
+    },
+    "coverage_differential_analysis": {
+      "enabled": true,
+      "track_new_edges": true,
+      "track_removed_edges": true,
+      "jaccard_similarity_threshold": 0.7
+    },
+    "crash_deduplication": {
+      "enabled": true,
+      "method": "stack_hash",
+      "ignore_similar_crashes": true
+    }
+  },
+  
+  "integration": {
+    "ci_cd_integration": {
+      "enabled": false,
+      "fail_on_risk_level": "high",
+      "webhook_url": null
+    },
+    "vulnerability_database": {
+      "enabled": false,
+      "cve_lookup": false,
+      "local_db_path": null
+    }
+  }
+}

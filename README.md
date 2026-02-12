@@ -1,5 +1,3 @@
-# BinFuzz
-bro idk
 # Multi-Agent Reinforcement Learning Vulnerability Forecasting
 
 **AI Runtime Binary Security Analysis Framework**
@@ -577,5 +575,21 @@ This project is provided for research and educational purposes. Please refer to 
 - Google BinDiff: Commercial license required
 - IDA Pro: Commercial license required
 - radare2: LGPL
+
+## 🙏 Acknowledgments
+
+- AFL++ team for the advanced fuzzing framework
+- Google for BinDiff binary analysis tools
+- Llama.cpp and ONNX Runtime teams for excellent AI runtimes
+- Research community for vulnerability detection insights
+
+## 📞 Contact
+
+For questions or collaboration:
+- Author: Pallase Kasdorf
+- Project: AI Runtime Vulnerability Forecasting
+- Date: February 2026
+
+---
 
 **Built with ❤️ for AI Security Research**
