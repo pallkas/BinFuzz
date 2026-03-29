@@ -1,0 +1,8 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=/home/ajay/MARLFuzz/Linux_bin/V1/llama-bench
+AFL_CUSTOM_INFO_PROGRAM_ARGV=-m @@ -n 1 -p 0
+AFL_CUSTOM_INFO_OUT=/home/ajay/MARLFuzz/BinFuzz/production_workspace/standalone_fuzz/6e57f980_1774549362/default
+AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+AFL_SKIP_CPUFREQ=1
+# command line:
+'afl-fuzz' '-Q' '-i' '/home/ajay/MARLFuzz/BinFuzz/seeds/llama/valid' '-o' '/home/ajay/MARLFuzz/BinFuzz/production_workspace/standalone_fuzz/6e57f980_1774549362' '-m' 'none' '-t' '5000' '-V' '7200' '-p' 'explore' '-x' '/home/ajay/MARLFuzz/BinFuzz/seeds/llama/llama.dict' '--' '/home/ajay/MARLFuzz/Linux_bin/V1/llama-bench' '-m' '@@' '-n' '1' '-p' '0'

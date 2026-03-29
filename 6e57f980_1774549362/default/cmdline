@@ -1,0 +1,7 @@
+/home/ajay/MARLFuzz/Linux_bin/V1/llama-bench
+-m
+@@
+-n
+1
+-p
+0
